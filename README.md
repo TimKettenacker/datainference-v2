@@ -6,4 +6,6 @@ Setting up ontologies is quite cumbersome, so I turned to an existing one in thi
 
 The code first reads in One Pagers from Power Point slides. Then, it creates a topic model from the input for each of the slides representing a consultant profile. The topics from the profiles are then enriched by structures received from wikidata, to match the profile topics with fitting item descriptions and bring them into a structure proposed by the wikidata ontology. The representation is done in Neo4j.
 
-To-do: information objects are then being compared in a graph to each other in order to find the perfect match to an incoming request. A bunch of machine learning algorithms can be evaluated to perform and tune that matching. Visualization could be done using the GRANDstack (Apollo, React, Neo4j).  
+Information objects are then being compared in a graph to each other in order to find the perfect match to an incoming request. A dataset from kaggle containing job descriptions is used to simulate the request (https://www.kaggle.com/PromptCloudHQ/us-technology-jobs-on-dicecom).
+
+A bunch of machine learning algorithms can be evaluated to perform and tune that matching. Visualization could be done using the GRANDstack (Apollo, React, Neo4j).  
