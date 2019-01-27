@@ -5,6 +5,7 @@ from SPARQLWrapper import SPARQLWrapper, JSON
 from collections import OrderedDict
 import pandas
 from langdetect import detect
+from py2neo import Graph
 
 
 def tokenize_topics(topics):
@@ -76,12 +77,12 @@ for i in range(len(slides_df)):
     language_code = detect(str(tokens_list))
     for token in tokens_list:
         try:
-            service_resp_list = query_wikidata_service(token, language_code)
-            df = pandas.io.json.json_normalize(service_resp_list['results']['bindings'])
             cypher_list = ["""MERGE (s:Skill {name: '""" + token + """'})""", """MATCH (p:Consulting_Profile), (s:Skill) WHERE 
             p.uuid = '""" + str(i) + """' AND s.name = '""" + token + """' MERGE (p)-[rel:HAS_SKILL]->(s)"""]
             for stmnt in cypher_list:
                 graph.run(stmnt)
+            service_resp = query_wikidata_service(token, language_code)
+            df = pandas.io.json.json_normalize(service_resp['results']['bindings'])
             if len(df) > 0:
                 onto_items_list = add_and_link_ontology_nodes(df, token)
                 for onto_item in onto_items_list:

@@ -1,5 +1,4 @@
 import re
-import py2neo
 from py2neo import Graph
 
 
