@@ -33,7 +33,7 @@ for z in range(len(slides_df)):
     content_clean = [content_clean[col*i : col*(i+1)] for i in range(row)]
 
     # reflect significance of combined words like 'data science' by creating bigrams
-    bigram = Phrases(content_clean, min_count = 2, threshold = 2)
+    bigram = Phrases(content_clean, min_count = 1, threshold = 2)
     bigram_mod = gensim.models.phrases.Phraser(bigram)
     data_words_bigrams = make_bigrams(content_clean)
 
@@ -42,10 +42,9 @@ for z in range(len(slides_df)):
     corpus = [id2word.doc2bow(text) for text in data_words_bigrams]
     lda_model = gensim.models.ldamodel.LdaModel(corpus=corpus,
                                                id2word=id2word,
-                                               num_topics=10,
+                                               num_topics=4,
                                                update_every=1,
                                                chunksize=100,
-                                               passes=10,
-                                               alpha='auto',
-                                               per_word_topics=True)
+                                               passes=1,
+                                               alpha='auto')
     slides_df.loc[z].at['raw topics'] = str(lda_model.print_topics())
